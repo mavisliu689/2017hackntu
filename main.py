@@ -47,7 +47,8 @@ def get_stock_api():
 	}
     response = requests.post(stock_api_url, json=data)
     stock_info = response.text
-
+    response_text=x.replace('\n', '')
+	response_text=x.replace(' ', '')
     return stock_info
 
 from datetime import datetime
@@ -79,6 +80,8 @@ def new_order(**kwargs):
     new_order_url = 'http://54.65.120.143:8888/hackathon/eSTKList'
     response = requests.post(new_order_url, json=data)
     response_text = response.text
+    response_text=x.replace('\n', '')
+	response_text=x.replace(' ', '')
     return response_text
 
 def get_token():

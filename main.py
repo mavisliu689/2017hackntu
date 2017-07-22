@@ -1,4 +1,7 @@
-from flask import Flask, render_template, request, jsonify, render_template_string
+from flask import Flask, render_template, \
+	request, jsonify, render_template_string, Response,\
+	stream_with_context
+
 import os
 import json
 import urllib
@@ -30,9 +33,15 @@ def test():
 def question():
     return render_template('question.html')
 
-@app.route('/list_r', methods=['POST'])
+@app.route('/list_r')
 # @app.route('/list_r')
 def list_r():
+    try:
+        invest_score = request.json['invest_score']
+        industry_type = request.json['industry_type']
+        topics = request.json['topics']
+    except:
+        pass
     invest_score = "PR1" #RR1,RR2,RR3
     stock_ID = [2845,6005,1704,1727,2409,1216,1722,2856,1535]
     industry_type = ["金融業", "食品工業", "化學工業"]
@@ -53,8 +62,21 @@ def list_r():
         })
         result_industrys.append(result_industry)
     print (result_industrys)
-    # return render_template('list.html')
+
+#     # return render_template('list.html')
+#     return render_template('list.html', data=result_industrys)
+
     return render_template('list.html', data=result_industrys)
+    #Response(stream_template('list.html', data=result_industrys))
+    # return Response(stream_with_context(json.dumps(result_industrys)))
+
+# def stream_template(template_name, **context):
+#     app.update_template_context(context)
+#     t = app.jinja_env.get_template(template_name)
+#     rv = t.stream(context)
+#     rv.enable_buffering(5)
+#     return rv
+
 
 @app.route('/profile')
 def profile():
@@ -143,4 +165,4 @@ def get_topics(industry_frame, topics):
 
  
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(host='0.0.0.0', port=port, debug=True, threaded=True)

@@ -86,7 +86,7 @@
         }],
       },
       mounted() {
-        const dataStr = "{{ data }}"
+        const dataStr = [{{ data|safe }}]
         // const data = JSON.parse(dataStr)
         console.log(dataStr)
       },

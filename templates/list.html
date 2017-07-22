@@ -24,18 +24,18 @@
         border
         style="width: 100%">
         <el-table-column
-          prop="date"
-          label="Date"
-          width="180">
-        </el-table-column>
-        <el-table-column
           prop="name"
-          label="Name"
+          label="企業名稱"
           width="180">
         </el-table-column>
         <el-table-column
-          prop="address"
-          label="Address">
+          prop="industry_type"
+          label="企業類型"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="stock_id"
+          label="股票代號">
         </el-table-column>
       </el-table>
     </el-row>
@@ -55,40 +55,14 @@
       data: {
         activeIndex: '2',
         currentPage3: 1,
-        tableData3: [{
-          date: '2016-05-03',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-02',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-04',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-01',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-08',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-06',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }, {
-          date: '2016-05-07',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles'
-        }],
+        tableData3: [],
       },
       mounted() {
         const dataStr = [{{ data|safe }}]
         // const data = JSON.parse(dataStr)
+        this.tableData3 = dataStr
         console.log(dataStr)
+        console.log(this.tableData3)
       },
       methods: {
         handleCurrentChange(val) {

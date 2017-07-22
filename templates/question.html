@@ -328,16 +328,17 @@
           console.log(rank)
           console.log(this.typeForm.type1)
           console.log(arr)
-          // var xhttp = new XMLHttpRequest();
-          // xhttp.onreadystatechange = function() {
-          // if (this.readyState == 4 && this.status == 200) {
-            // document.getElementById("demo").innerHTML = xhttp.responseText
-            // console.log(xhttp.responseText)
-            // }
-          // }
-          // xhttp.open("post",'list_r', true)
-          // xhttp.send()
-          this.$refs.form.submit()
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            // document.innerHTML = xhttp.responseText
+            document.write(xhttp.responseText)
+            console.log(xhttp)
+            }
+          }
+          xhttp.open("post",'list_r', true)
+          xhttp.send()
+          // this.$refs.form.submit()
         },
         nextStep() {
            if (this.active++ > 2) {

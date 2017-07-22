@@ -33,7 +33,7 @@ def test():
 def question():
     return render_template('question.html')
 
-@app.route('/list_r')
+@app.route('/list_r', methods=['POST'])
 # @app.route('/list_r')
 def list_r():
     try:

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>投資永續企業 Invest Sustainable Corporation</title>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <link href="static/reset.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
+  <link href="static/styles.css" rel="stylesheet">
+</head>
+<body>
+  <div id="app">
+    <el-menu theme="dark" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+      <el-menu-item index="1"><a href="/">投資永續企業 Invest Sustainable Corporation</a></el-menu-item>
+      <el-menu-item index="2"><a href="/list_r">企業名單</a></el-menu-item>
+    </el-menu>
+    <el-row type="flex" justify="center" class="question__form">
+      <el-steps center :space="480" :active="active" finish-status="success" process-status="wait">
+      <el-step title="Step 1"></el-step>
+      <el-step title="Step 2"></el-step>
+      <el-step title="Step 3"></el-step>
+    </el-steps>
+    </el-row>
+    <el-row type="flex" class="question__form" v-if="active === 0"> 
+      <el-form ref="riskForm" :model="riskForm" label-position="top">
+        <el-form-item label="在一般情況下，您所能接受之價格波動，大約在那種程度？ (風險評估-偏好)">
+          <el-radio-group v-model="riskForm.risk1">
+            <el-radio :label="2">價格波動介於-5% 〜 +5%之間</el-radio>
+            <el-radio :label="4">價格波動介於-10% 〜 +10%之間</el-radio>            
+            <el-radio :label="6">價格波動介於-15% 〜 +15%之間</el-radio>
+            <el-row>
+              <el-radio :label="8">價格波動介於-20% 〜 +20%之間</el-radio>
+              <el-radio :label="10">價格波動超過±20%</el-radio>
+            </el-row>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="假設您有 NT100 萬元之投資組合，請問您可承擔最大本金下跌幅度為何？(風險評估-承受力) (如果您選擇 a.，您的風險屬性將設定為第一級 保守型)">
+          <el-radio-group v-model="riskForm.risk2">
+            <el-radio :label="2">0%</el-radio>
+            <el-radio :label="4">-5%</el-radio>
+            <el-radio :label="6">-10%</el-radio>
+            <el-radio :label="8">-15%</el-radio>
+            <el-radio :label="10">-20%以上</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="當您的投資超過預設的停損或停利點時，請問您會採取那種處置方式？(風險評估-偏好) (現金流量期望)">
+          <el-radio-group v-model="riskForm.risk3">
+            <el-radio :label="2">立即賣出所有部位</el-radio>
+            <el-radio :label="4">先賣出一半或一半以上部位</el-radio>
+            <el-radio :label="6">先賣出一半以內部位</el-radio>
+            <el-radio :label="8">暫時觀望，視情況再因應</el-radio>
+            <el-radio :label="10">繼續持有至回本或不漲為止</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="當您的投資組合預期平均報酬率達到多少時才會考慮賣出？(風險評估) (現金流量期望)">
+          <el-radio-group v-model="riskForm.risk4">
+            <el-radio :label="2">5%</el-radio>
+            <el-radio :label="4">10%</el-radio>
+            <el-radio :label="6">15%</el-radio>
+            <el-radio :label="8">20%</el-radio>
+            <el-radio :label="10">25%以上</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="請問您偏好以下那類風險及報酬率之投資組合？(期望報酬)">
+          <el-radio-group v-model="riskForm.risk5">
+            <el-row>
+              <el-radio :label="2">沒有概念</el-radio>
+            </el-row>
+            <el-row>
+              <el-radio :label="4">絕對低度風險投資組合+穩健保本(低度風險，只要保本就好)</el-radio>
+            </el-row>
+            <el-row>
+              <el-radio :label="6">低度風險投資組合+低度回報(低風險承擔下，追求低的投資報酬)</el-radio>
+            </el-row>
+            <el-row>
+              <el-radio :label="8">中度風險投資組合+中度回報(在中等風險承擔下，要求中等水準的合理報酬)</el-radio>
+            </el-row>
+            <el-row>
+              <el-radio :label="10">高風險投資組合+高度回報(願意承擔高度風險，也期待創造超額報酬)</el-radio>
+            </el-row>
+          </el-radio-group>
+        </el-form-item>
+        <el-row type="flex" justify="end">
+          <el-form-item label-width="120px">
+            <el-button type="primary" @click="nextStep">下一步</el-button>
+          </el-form-item>
+        </el-row>
+      </el-form>
+    </el-row>
+    <el-row type="flex" class="question__form" v-if="active === 1">
+      <el-form ref="typeForm" :model="typeForm" label-width="120px" label-position="top">
+        <el-form-item label="請選擇五個您關注的產業">
+          <el-checkbox-group v-model="typeForm.type1" :max="5" :min="1">
+            <el-checkbox v-for="industryType in industryTypes" :label="industryType" :key="industryType">
+              <span v-text="industryType"></span>
+            </el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+        <el-row type="flex" justify="end">
+          <el-form-item label-width="120px">
+            <el-button type="primary" @click="nextStep">下一步</el-button>
+          </el-form-item>
+        </el-row>
+      </el-form>
+    </el-row>
+    <el-row type="flex" class="question__form" v-if="active === 2">
+      <el-form ref="issueForm" :model="issueForm" label-width="120px" label-position="top">
+        <el-form-item label="請選出五個您關注的經濟議題">
+          <el-checkbox-group v-model="issueForm.issue1" :max="5" :min="1">
+            <el-checkbox v-for="ecoIssue in ecoIssues" :label="ecoIssue" :key="ecoIssue">
+              <span v-text="ecoIssue"></span>
+            </el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+        <el-form-item label="請選出五個您關注的環境議題">
+          <el-checkbox-group v-model="issueForm.issue2" :max="5" :min="1">
+            <el-checkbox v-for="envIssue in envIssues" :label="envIssue" :key="envIssue">
+              <span v-text="envIssue"></span>
+            </el-checkbox>
+          </el-checkbox-group>
+        </el-form-item> 
+        <el-form-item label="請選出五個您關注的社會議題">
+          <el-checkbox-group v-model="issueForm.issue3" :max="5" :min="1">
+            <el-checkbox v-for="societyIssue in societyIssues" :label="societyIssue" :key="societyIssue">
+              <span v-text="societyIssue"></span>
+            </el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+        <el-form-item label="請選出五個您關注的風險議題">
+          <el-checkbox-group v-model="issueForm.issue4" :max="5" :min="1">
+            <el-checkbox v-for="riskIssue in riskIssues" :label="riskIssue" :key="riskIssue">
+              <span v-text="riskIssue"></span>
+            </el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+        <el-row type="flex" justify="end">
+          <el-form-item label-width="120px">
+            <el-button type="primary" @click="onSubmit">送出</el-button>
+          </el-form-item>
+        </el-row>
+      </el-form>
+    </el-row>
+  </div>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        activeIndex: '1',
+        active: 0,
+        riskForm: {
+          risk1: 2,
+          risk2: 2,
+          risk3: 2,
+          risk4: 2,
+          risk5: 2,
+        },
+        typeForm: {
+          type1: ['水泥工業'],
+        },
+        issueForm: {
+          issue1: ['經濟績效'],
+          issue2: ['原物料'],
+          issue3: ['供應商社會衝擊評估'],
+          issue4: ['商譽／企業形象']
+        },
+        industryTypes: [
+          '水泥工業',
+          '食品工業',
+          '塑膠工業',
+          '紡織纖維',
+          '電機機械',
+          '電器電纜',
+          '化學工業',
+          '生技醫療業',
+          '玻璃陶瓷',
+          '造紙工業',
+          '鋼鐵工業',
+          '橡膠工業',
+          '汽車工業',
+          '半導體業',
+          '電腦及周邊設備業',
+          '光電業',
+          '電信網路業',
+          '電子零組件業',
+          '電子通路業',
+          '資訊服務業',
+          '其他電子業',
+          '建材營造',
+          '航運業',
+          '觀光事業',
+          '金融保險業',
+          '貿易百貨',
+          '油電燃氣業',
+          '文化創意業',
+          '非營利組織',
+          '政府機構',
+          '醫院機構',
+          '其他'
+        ],
+        ecoIssues: [
+          '經濟績效',
+          '間接經濟衝擊',
+          '市場形象/企業品牌',
+          '採購實務',
+          '營運概況與策略',
+          '創新研發／新技術或產品',
+          '供應鏈管理',
+          '政府關係／租稅補助',
+          '永續發展策略',
+          '符合法令規範',
+          '風險管理',
+          '公司治理',
+          '商業道德與誠信'
+        ],
+        envIssues: [
+          '原物料',
+          '能資源管理 ／節能減碳',
+          '水資源管理',
+          '綠色產品與服務',
+          '生物多樣性',
+          '環保法規 (法規遵循)',
+          '環境問題申訴機制',
+          '整體情況／環境投資／環境會計',
+          '廢汙水及廢棄物',
+          '溫室氣體管理 (排放)',
+          '交通運輸',
+          '供應商環境評估',
+          '環境保護/氣候變遷衝擊',
+          '空氣汙染管控',
+          '污染防治措施',
+          '有害/化學物質管理',
+          '綠色製程／清潔生產',
+          '綠色採購',
+          '綠建築'
+        ],
+        societyIssues: [
+          '供應商社會衝擊評估',
+          '社會法規遵循',
+          '社會公益／社會參與／社會影響',
+          '人才培育／產學合作',
+          '職業健康與安全',
+          '勞/資關係',
+          '訓練與教育／職涯發展／人力資源發展',
+          '勞工實務問題申訴機制',
+          '勞雇關係',
+          '女男同酬',
+          '員工多元化與平等機會',
+          '供應商勞工實務評估',
+          '薪酬福利',
+          '勞工權益',
+          '員工管理',
+          '人權評估',
+          '童工',
+          '人權問題申訴機制',
+          '不歧視',
+          '結社自由於集體協商',
+          '原住民權利',
+          '強迫與強制勞動',
+          '供應商人權評估',
+          '保全實務',
+          '投資',
+          '尊重人權',
+          '衝突礦產',
+          '顧客的健康與安全',
+          '顧客隱私',
+          '產品法規遵循',
+          '產品及服務標示',
+          '行銷溝通',
+          '客戶需求／服務',
+          '客戶關係管理',
+          '個資／機密資料保護',
+        ],
+        riskIssues: [
+          '商譽／企業形象',
+          '市場風險',
+          '財務風險',
+          '營運風險',
+          '業務風險',
+          '行銷風險',
+          '策略風險',
+          '成本風險',
+          '投資風險',
+          '資訊安全風險',
+          '進、銷貨風險',
+          '採購風險',
+          '供應鏈風險',
+          '公司治理風險',
+          '法規風險',
+          '道德風險',
+          '事故、緊急應變',
+          '氣候變遷風險',
+          '環安衛風險',
+          '原物料源風險',
+          '品質風險',
+          '能源風險',
+          '水資源風險',
+          '污染風險',
+          '運輸物流風險',
+          '人力資源風險',
+          '智財風險',
+          '政治與社會風險',
+          '食品安全衛生',
+        ]
+      },
+      methods: {
+        onSubmit() {
+          let total = 0
+          let rank = 'RR1'
+          let arr = []
+          for(let prop in this.riskForm) {
+            total += this.riskForm[prop]
+          }
+          if (total >= 10 && total <= 20) {
+            rank = 'RR1'
+          } else if (total > 20 && total <= 40) {
+            rank = 'RR2'
+          } else if (total > 40 && total <= 50) {
+            rank = 'RR3'
+          }
+          for(let prop in this.issueForm) {
+            arr = [...arr ,...this.issueForm[prop]]
+          }
+          console.log(rank)
+          console.log(this.typeForm.type1)
+          console.log(arr)
+        },
+        nextStep() {
+           if (this.active++ > 2) {
+            this.active = 0
+           }
+        },
+        handleSelect(key, keyPath) {
+          console.log(key, keyPath);
+        }
+      }
+    })
+  </script>
+</body>
+</html>

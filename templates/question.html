@@ -16,12 +16,14 @@
     <el-menu theme="dark" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
       <el-menu-item index="1"><a href="/">投資永續企業 Invest Sustainable Corporation</a></el-menu-item>
       <el-menu-item index="2"><a href="/list_r">企業名單</a></el-menu-item>
+      <el-menu-item index="3"><a href="/csr_info">CSR 資訊</a></el-menu-item>
     </el-menu>
     <el-row type="flex" justify="center" class="question__form">
-      <el-steps center :space="480" :active="active" finish-status="success" process-status="wait">
+      <el-steps center :space="300" :active="active" finish-status="success" process-status="wait">
       <el-step title="Step 1"></el-step>
       <el-step title="Step 2"></el-step>
       <el-step title="Step 3"></el-step>
+      <el-step title="Step 4"></el-step>
     </el-steps>
     </el-row>
     <form action="list_r" ref="form">
@@ -130,8 +132,17 @@
               </el-checkbox>
             </el-checkbox-group>
           </el-form-item>
+          <el-row type="flex" justify="end">
+            <el-form-item label-width="120px">
+              <el-button type="primary" @click="nextStep">下一步</el-button>
+            </el-form-item>
+          </el-row>
+        </el-form>
+      </el-row>
+      <el-row type="flex" class="question__form" v-if="active === 3">
+        <el-form ref="riskIssueForm" :model="riskIssueForm" label-width="120px" label-position="top">
           <el-form-item label="請選出五個您關注的風險議題">
-            <el-checkbox-group v-model="issueForm.issue4" :max="5" :min="1">
+            <el-checkbox-group v-model="riskIssueForm.issue1" :max="5" :min="1">
               <el-checkbox v-for="riskIssue in riskIssues" :label="riskIssue" :key="riskIssue">
                 <span v-text="riskIssue"></span>
               </el-checkbox>
@@ -165,8 +176,10 @@
         issueForm: {
           issue1: ['經濟績效'],
           issue2: ['原物料'],
-          issue3: ['供應商社會衝擊評估'],
-          issue4: ['商譽／企業形象']
+          issue3: ['供應商社會衝擊評估']
+        },
+        riskIssueForm: {
+          issue1: ['商譽／企業形象']
         },
         industryTypes: [
           '水泥工業',
@@ -328,6 +341,7 @@
           console.log(rank)
           console.log(this.typeForm.type1)
           console.log(arr)
+          console.log(this.riskIssueForm.issue1)
           var xhttp = new XMLHttpRequest();
           xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
@@ -341,7 +355,7 @@
           // this.$refs.form.submit()
         },
         nextStep() {
-           if (this.active++ > 2) {
+           if (this.active++ > 3) {
             this.active = 0
            }
         },

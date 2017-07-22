@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>投資永續企業 Invest Sustainable Corporation</title>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <link href="static/reset.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
+  <link href="static/styles.css" rel="stylesheet">
+</head>
+<body>
+  <div id="app">
+    <el-menu theme="dark" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+      <el-menu-item index="1"><a href="/">投資永續企業 Invest Sustainable Corporation</a></el-menu-item>
+      <el-menu-item index="2"><a href="/">企業名單</a></el-menu-item>
+      <el-menu-item index="3"><a href="/csr_info">CSR 資訊</a></el-menu-item>
+    </el-menu>
+    <iframe class="bi" src="https://app.powerbi.com/view?r=eyJrIjoiNTM2MTVkNWEtZDkyMi00ODI4LWEwYmMtN2NmMWMwZDllYmRmIiwidCI6ImFjYjkwNzY1LWU0ZTgtNGNjNC04NTBiLTZmNWUxMWIwNGNlMiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+  </div>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        activeIndex: '3',
+        currentPage3: 1,
+        tableData3: [],
+      },
+      mounted() {
+
+      },
+      methods: {
+        handleSelect(key, keyPath) {
+          console.log(key, keyPath)
+        }
+      }
+    })
+  </script>
+</body>
+</html>

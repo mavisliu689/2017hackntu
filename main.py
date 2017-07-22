@@ -77,6 +77,9 @@ def list_r():
 #     rv.enable_buffering(5)
 #     return rv
 
+@app.route('/csr_info')
+def csr_info():
+	return render_template('csr_info.html')
 
 @app.route('/profile')
 def profile():

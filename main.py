@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, render_template_string
 import os
 import json
 import urllib
@@ -30,9 +30,29 @@ def test():
 def question():
     return render_template('question.html')
 
-@app.route('/list_r')
+@app.route('/list_r', methods=['POST'])
 def list_r():
-    return render_template('list.html')
+    invest_score = "PR1" #RR1,RR2,RR3
+    stock_ID = [2845,6005,1704,1727,2409,1216,1722,2856,1535]
+    industry_type = ["金融業", "食品工業", "化學工業"]
+    topics = ["供應商社會衝擊評估", "社會法規遵循", "社會公益／社會參與／社會影響"]
+    data_frame_topics, data_frame_risks = get_all_excel()
+    get_stock_select_industry = base_on_stock_ID_get_dataframe(data_frame_risks, stock_ID)
+    get_industry_frame = get_industry(get_stock_select_industry, industry_type)
+
+    get_stock_select_industry_risk = base_on_stock_ID_get_dataframe(data_frame_topics, stock_ID)
+    get_topics_frame = get_topics(get_stock_select_industry_risk, topics)
+    result_industrys = []
+    for index, row in get_topics_frame.iterrows():
+        result_industry = {}
+        result_industry.update({
+            'name':row['企業完整名稱'],
+            'industry_type':row['產業類別'],
+            'stock_id': row['股票代碼']
+        })
+        result_industrys.append(result_industry)
+    print (result_industrys)
+    return render_template_string('list.html', data=result_industrys)
 
 @app.route('/profile')
 def profile():
@@ -92,10 +112,33 @@ def get_token():
 	token = text[13:-4]
 
 	return token
+
+
+import pandas as pd
+import xlrd	
 # @app.route('/visitors', methods=['POST'])
 # def put_visitor():
 #     user = request.json['name']
 #     return 'Hello {}!'.format(user)
+def get_all_excel():
+#     data_frame = pd.read_excel('./2017hackntu/2016_CSR_Data_458_B_index.xlsx',error_bad_lines=False)
+    data_frame_topics = pd.read_excel('./data/2016_CSR_Data_458_D_topics_new.xlsx')
+    data_frame_risks = pd.read_excel('./data/2016_CSR_Data_458_B_risks.xlsx')
+    return data_frame_topics, data_frame_risks
 
+def base_on_stock_ID_get_dataframe(data_frame_risks, stock_ID):
+    return data_frame_risks[data_frame_risks['股票代碼'].isin(stock_ID)]
+
+def get_industry(stock_select_industry, industry_type):
+    return stock_select_industry[stock_select_industry['產業類別'].isin(industry_type)]
+
+def get_topics(industry_frame, topics):
+    industry_frame_c = industry_frame.copy(deep=True)
+    industry_frame_c['分數'] = 0
+    for topic in topics:
+        industry_frame_c.loc[industry_frame_c[industry_frame_c[topic].isin(['1'])].index, ['分數']] += 1
+    return industry_frame_c.sort_values (['分數'], ascending=[False])
+
+ 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port, debug=True)

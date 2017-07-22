@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>投資永續企業 Invest Sustainable Corporation</title>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <link href="static/reset.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
+  <link href="static/styles.css" rel="stylesheet">
+</head>
+<body>
+  <div id="app">
+    <el-menu theme="dark" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+      <el-menu-item index="1"><a href="/">投資永續企業 Invest Sustainable Corporation</a></el-menu-item>
+      <el-menu-item index="2"><a href="/list_r">企業名單</a></el-menu-item>
+    </el-menu>
+    <el-row type="flex" class="question__form">
+      <el-table
+        :data="tableData3"
+        height="250"
+        border
+        style="width: 100%">
+        <el-table-column
+          prop="date"
+          label="Date"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          label="Name"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="address"
+          label="Address">
+        </el-table-column>
+      </el-table>
+    </el-row>
+    <el-row type="flex" class="question__form" justify="end">
+      <el-pagination
+        @current-change="handleCurrentChange"
+        :current-page.sync="currentPage3"
+        :page-size="100"
+        layout="prev, pager, next, jumper"
+        :total="1000">
+      </el-pagination>
+    </el-row>
+  </div>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        activeIndex: '2',
+        currentPage3: 1,
+        tableData3: [{
+          date: '2016-05-03',
+          name: 'Tom',
+          address: 'No. 189, Grove St, Los Angeles'
+        }, {
+          date: '2016-05-02',
+          name: 'Tom',
+          address: 'No. 189, Grove St, Los Angeles'
+        }, {
+          date: '2016-05-04',
+          name: 'Tom',
+          address: 'No. 189, Grove St, Los Angeles'
+        }, {
+          date: '2016-05-01',
+          name: 'Tom',
+          address: 'No. 189, Grove St, Los Angeles'
+        }, {
+          date: '2016-05-08',
+          name: 'Tom',
+          address: 'No. 189, Grove St, Los Angeles'
+        }, {
+          date: '2016-05-06',
+          name: 'Tom',
+          address: 'No. 189, Grove St, Los Angeles'
+        }, {
+          date: '2016-05-07',
+          name: 'Tom',
+          address: 'No. 189, Grove St, Los Angeles'
+        }],
+      },
+      mounted() {
+        const dataStr = "{{ data }}"
+        // const data = JSON.parse(dataStr)
+        console.log(dataStr)
+      },
+      methods: {
+        handleCurrentChange(val) {
+          console.log(`current page: ${val}`);
+        },
+        handleSelect(key, keyPath) {
+          console.log(key, keyPath);
+        }
+      }
+    })
+  </script>
+</body>
+</html>

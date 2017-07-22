@@ -24,125 +24,127 @@
       <el-step title="Step 3"></el-step>
     </el-steps>
     </el-row>
-    <el-row type="flex" class="question__form" v-if="active === 0"> 
-      <el-form ref="riskForm" :model="riskForm" label-position="top">
-        <el-form-item label="在一般情況下，您所能接受之價格波動，大約在那種程度？ (風險評估-偏好)">
-          <el-radio-group v-model="riskForm.risk1">
-            <el-radio :label="2">價格波動介於-5% 〜 +5%之間</el-radio>
-            <el-radio :label="4">價格波動介於-10% 〜 +10%之間</el-radio>            
-            <el-radio :label="6">價格波動介於-15% 〜 +15%之間</el-radio>
-            <el-row>
-              <el-radio :label="8">價格波動介於-20% 〜 +20%之間</el-radio>
-              <el-radio :label="10">價格波動超過±20%</el-radio>
-            </el-row>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="假設您有 NT100 萬元之投資組合，請問您可承擔最大本金下跌幅度為何？(風險評估-承受力) (如果您選擇 a.，您的風險屬性將設定為第一級 保守型)">
-          <el-radio-group v-model="riskForm.risk2">
-            <el-radio :label="2">0%</el-radio>
-            <el-radio :label="4">-5%</el-radio>
-            <el-radio :label="6">-10%</el-radio>
-            <el-radio :label="8">-15%</el-radio>
-            <el-radio :label="10">-20%以上</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="當您的投資超過預設的停損或停利點時，請問您會採取那種處置方式？(風險評估-偏好) (現金流量期望)">
-          <el-radio-group v-model="riskForm.risk3">
-            <el-radio :label="2">立即賣出所有部位</el-radio>
-            <el-radio :label="4">先賣出一半或一半以上部位</el-radio>
-            <el-radio :label="6">先賣出一半以內部位</el-radio>
-            <el-radio :label="8">暫時觀望，視情況再因應</el-radio>
-            <el-radio :label="10">繼續持有至回本或不漲為止</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="當您的投資組合預期平均報酬率達到多少時才會考慮賣出？(風險評估) (現金流量期望)">
-          <el-radio-group v-model="riskForm.risk4">
-            <el-radio :label="2">5%</el-radio>
-            <el-radio :label="4">10%</el-radio>
-            <el-radio :label="6">15%</el-radio>
-            <el-radio :label="8">20%</el-radio>
-            <el-radio :label="10">25%以上</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="請問您偏好以下那類風險及報酬率之投資組合？(期望報酬)">
-          <el-radio-group v-model="riskForm.risk5">
-            <el-row>
-              <el-radio :label="2">沒有概念</el-radio>
-            </el-row>
-            <el-row>
-              <el-radio :label="4">絕對低度風險投資組合+穩健保本(低度風險，只要保本就好)</el-radio>
-            </el-row>
-            <el-row>
-              <el-radio :label="6">低度風險投資組合+低度回報(低風險承擔下，追求低的投資報酬)</el-radio>
-            </el-row>
-            <el-row>
-              <el-radio :label="8">中度風險投資組合+中度回報(在中等風險承擔下，要求中等水準的合理報酬)</el-radio>
-            </el-row>
-            <el-row>
-              <el-radio :label="10">高風險投資組合+高度回報(願意承擔高度風險，也期待創造超額報酬)</el-radio>
-            </el-row>
-          </el-radio-group>
-        </el-form-item>
-        <el-row type="flex" justify="end">
-          <el-form-item label-width="120px">
-            <el-button type="primary" @click="nextStep">下一步</el-button>
+    <form action="list_r" ref="form">
+      <el-row type="flex" class="question__form" v-if="active === 0"> 
+        <el-form ref="riskForm" :model="riskForm" label-position="top">
+          <el-form-item label="在一般情況下，您所能接受之價格波動，大約在那種程度？ (風險評估-偏好)">
+            <el-radio-group v-model="riskForm.risk1">
+              <el-radio :label="2">價格波動介於-5% 〜 +5%之間</el-radio>
+              <el-radio :label="4">價格波動介於-10% 〜 +10%之間</el-radio>            
+              <el-radio :label="6">價格波動介於-15% 〜 +15%之間</el-radio>
+              <el-row>
+                <el-radio :label="8">價格波動介於-20% 〜 +20%之間</el-radio>
+                <el-radio :label="10">價格波動超過±20%</el-radio>
+              </el-row>
+            </el-radio-group>
           </el-form-item>
-        </el-row>
-      </el-form>
-    </el-row>
-    <el-row type="flex" class="question__form" v-if="active === 1">
-      <el-form ref="typeForm" :model="typeForm" label-width="120px" label-position="top">
-        <el-form-item label="請選擇五個您關注的產業">
-          <el-checkbox-group v-model="typeForm.type1" :max="5" :min="1">
-            <el-checkbox v-for="industryType in industryTypes" :label="industryType" :key="industryType">
-              <span v-text="industryType"></span>
-            </el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-        <el-row type="flex" justify="end">
-          <el-form-item label-width="120px">
-            <el-button type="primary" @click="nextStep">下一步</el-button>
+          <el-form-item label="假設您有 NT100 萬元之投資組合，請問您可承擔最大本金下跌幅度為何？(風險評估-承受力) (如果您選擇 a.，您的風險屬性將設定為第一級 保守型)">
+            <el-radio-group v-model="riskForm.risk2">
+              <el-radio :label="2">0%</el-radio>
+              <el-radio :label="4">-5%</el-radio>
+              <el-radio :label="6">-10%</el-radio>
+              <el-radio :label="8">-15%</el-radio>
+              <el-radio :label="10">-20%以上</el-radio>
+            </el-radio-group>
           </el-form-item>
-        </el-row>
-      </el-form>
-    </el-row>
-    <el-row type="flex" class="question__form" v-if="active === 2">
-      <el-form ref="issueForm" :model="issueForm" label-width="120px" label-position="top">
-        <el-form-item label="請選出五個您關注的經濟議題">
-          <el-checkbox-group v-model="issueForm.issue1" :max="5" :min="1">
-            <el-checkbox v-for="ecoIssue in ecoIssues" :label="ecoIssue" :key="ecoIssue">
-              <span v-text="ecoIssue"></span>
-            </el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-        <el-form-item label="請選出五個您關注的環境議題">
-          <el-checkbox-group v-model="issueForm.issue2" :max="5" :min="1">
-            <el-checkbox v-for="envIssue in envIssues" :label="envIssue" :key="envIssue">
-              <span v-text="envIssue"></span>
-            </el-checkbox>
-          </el-checkbox-group>
-        </el-form-item> 
-        <el-form-item label="請選出五個您關注的社會議題">
-          <el-checkbox-group v-model="issueForm.issue3" :max="5" :min="1">
-            <el-checkbox v-for="societyIssue in societyIssues" :label="societyIssue" :key="societyIssue">
-              <span v-text="societyIssue"></span>
-            </el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-        <el-form-item label="請選出五個您關注的風險議題">
-          <el-checkbox-group v-model="issueForm.issue4" :max="5" :min="1">
-            <el-checkbox v-for="riskIssue in riskIssues" :label="riskIssue" :key="riskIssue">
-              <span v-text="riskIssue"></span>
-            </el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-        <el-row type="flex" justify="end">
-          <el-form-item label-width="120px">
-            <el-button type="primary" @click="onSubmit">送出</el-button>
+          <el-form-item label="當您的投資超過預設的停損或停利點時，請問您會採取那種處置方式？(風險評估-偏好) (現金流量期望)">
+            <el-radio-group v-model="riskForm.risk3">
+              <el-radio :label="2">立即賣出所有部位</el-radio>
+              <el-radio :label="4">先賣出一半或一半以上部位</el-radio>
+              <el-radio :label="6">先賣出一半以內部位</el-radio>
+              <el-radio :label="8">暫時觀望，視情況再因應</el-radio>
+              <el-radio :label="10">繼續持有至回本或不漲為止</el-radio>
+            </el-radio-group>
           </el-form-item>
-        </el-row>
-      </el-form>
-    </el-row>
+          <el-form-item label="當您的投資組合預期平均報酬率達到多少時才會考慮賣出？(風險評估) (現金流量期望)">
+            <el-radio-group v-model="riskForm.risk4">
+              <el-radio :label="2">5%</el-radio>
+              <el-radio :label="4">10%</el-radio>
+              <el-radio :label="6">15%</el-radio>
+              <el-radio :label="8">20%</el-radio>
+              <el-radio :label="10">25%以上</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="請問您偏好以下那類風險及報酬率之投資組合？(期望報酬)">
+            <el-radio-group v-model="riskForm.risk5">
+              <el-row>
+                <el-radio :label="2">沒有概念</el-radio>
+              </el-row>
+              <el-row>
+                <el-radio :label="4">絕對低度風險投資組合+穩健保本(低度風險，只要保本就好)</el-radio>
+              </el-row>
+              <el-row>
+                <el-radio :label="6">低度風險投資組合+低度回報(低風險承擔下，追求低的投資報酬)</el-radio>
+              </el-row>
+              <el-row>
+                <el-radio :label="8">中度風險投資組合+中度回報(在中等風險承擔下，要求中等水準的合理報酬)</el-radio>
+              </el-row>
+              <el-row>
+                <el-radio :label="10">高風險投資組合+高度回報(願意承擔高度風險，也期待創造超額報酬)</el-radio>
+              </el-row>
+            </el-radio-group>
+          </el-form-item>
+          <el-row type="flex" justify="end">
+            <el-form-item label-width="120px">
+              <el-button type="primary" @click="nextStep">下一步</el-button>
+            </el-form-item>
+          </el-row>
+        </el-form>
+      </el-row>
+      <el-row type="flex" class="question__form" v-if="active === 1">
+        <el-form ref="typeForm" :model="typeForm" label-width="120px" label-position="top">
+          <el-form-item label="請選擇五個您關注的產業">
+            <el-checkbox-group v-model="typeForm.type1" :max="5" :min="1">
+              <el-checkbox v-for="industryType in industryTypes" :label="industryType" :key="industryType">
+                <span v-text="industryType"></span>
+              </el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+          <el-row type="flex" justify="end">
+            <el-form-item label-width="120px">
+              <el-button type="primary" @click="nextStep">下一步</el-button>
+            </el-form-item>
+          </el-row>
+        </el-form>
+      </el-row>
+      <el-row type="flex" class="question__form" v-if="active === 2">
+        <el-form ref="issueForm" :model="issueForm" label-width="120px" label-position="top">
+          <el-form-item label="請選出五個您關注的經濟議題">
+            <el-checkbox-group v-model="issueForm.issue1" :max="5" :min="1">
+              <el-checkbox v-for="ecoIssue in ecoIssues" :label="ecoIssue" :key="ecoIssue">
+                <span v-text="ecoIssue"></span>
+              </el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+          <el-form-item label="請選出五個您關注的環境議題">
+            <el-checkbox-group v-model="issueForm.issue2" :max="5" :min="1">
+              <el-checkbox v-for="envIssue in envIssues" :label="envIssue" :key="envIssue">
+                <span v-text="envIssue"></span>
+              </el-checkbox>
+            </el-checkbox-group>
+          </el-form-item> 
+          <el-form-item label="請選出五個您關注的社會議題">
+            <el-checkbox-group v-model="issueForm.issue3" :max="5" :min="1">
+              <el-checkbox v-for="societyIssue in societyIssues" :label="societyIssue" :key="societyIssue">
+                <span v-text="societyIssue"></span>
+              </el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+          <el-form-item label="請選出五個您關注的風險議題">
+            <el-checkbox-group v-model="issueForm.issue4" :max="5" :min="1">
+              <el-checkbox v-for="riskIssue in riskIssues" :label="riskIssue" :key="riskIssue">
+                <span v-text="riskIssue"></span>
+              </el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+          <el-row type="flex" justify="end">
+            <el-form-item label-width="120px">
+              <el-button type="primary" @click="onSubmit">送出</el-button>
+            </el-form-item>
+          </el-row>
+        </el-form>
+      </el-row>
+    </form>
   </div>
   <script>
     new Vue({
@@ -326,6 +328,16 @@
           console.log(rank)
           console.log(this.typeForm.type1)
           console.log(arr)
+          // var xhttp = new XMLHttpRequest();
+          // xhttp.onreadystatechange = function() {
+          // if (this.readyState == 4 && this.status == 200) {
+            // document.getElementById("demo").innerHTML = xhttp.responseText
+            // console.log(xhttp.responseText)
+            // }
+          // }
+          // xhttp.open("post",'list_r', true)
+          // xhttp.send()
+          this.$refs.form.submit()
         },
         nextStep() {
            if (this.active++ > 2) {

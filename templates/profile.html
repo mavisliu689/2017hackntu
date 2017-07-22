@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,32 +7,66 @@
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+    <style>
+      html,body{
+        height:100%;
+      }
 
+      #iframe{
+        width: 100%;
+        height: 100%;
+      }
+      #order{
+        position: absolute;
+          top: 10%;
+          right: 40px;
+      }
+      #title-name{
+        padding:10px;
+        margin-bottom:0px;
+        font-size:2.5rem;
+      }
+  </style>
 </head>
 <body>
 
-<style>
-	html,body{
-		height:100%;
-	}
 
-	#iframe{
-		width: 100%;
-		height: 100%;
-	}
-	#order{
-		position: absolute;
-    	top: 10%;
-    	right: 40px;
-	}
-	#title-name{
-		padding:10px;
-		margin-bottom:0px;
-		font-size:2.5rem;
-	}
-</style>
 <div id="title-name">企業名稱</div>
 <button id="order" class="btn btn-lg btn-info">下單</button>
-<iframe id="iframe" src="https://app.powerbi.com/view?r=eyJrIjoiZGJhN2NkYWQtNzc1NS00OTQ2LWI3MjItY2NhNDM2ZDc4ODMzIiwidCI6ImFjYjkwNzY1LWU0ZTgtNGNjNC04NTBiLTZmNWUxMWIwNGNlMiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+<!-- <iframe id="iframe" src="https://app.powerbi.com/view?r=eyJrIjoiZGJhN2NkYWQtNzc1NS00OTQ2LWI3MjItY2NhNDM2ZDc4ODMzIiwidCI6ImFjYjkwNzY1LWU0ZTgtNGNjNC04NTBiLTZmNWUxMWIwNGNlMiIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe> -->
+
+
+  <div id="demo"></div>
+  <script>
+    const opts = {
+      method:'post',
+      baseURL: 'http://140.118.127.132:5000',
+      url: 'get_div',
+      params: {
+        corpid: '6015',
+        page: '1'
+      }
+    }
+    // var xhttp = new XMLHttpRequest();
+    // xhttp.onreadystatechange = function() {
+    //   if (this.readyState == 4 && this.status == 200) {
+    //     document.getElementById("demo").innerHTML = xhttp.responseText;
+    //   }
+    // }
+    // xhttp.open("get" , true);
+    // xhttp.send();
+
+    var oReq = new XMLHttpRequest();
+
+    oReq.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        console.log(oReq.responseText)
+        document.getElementById("demo").innerHTML = xhttp.responseText;
+      }
+    }
+oReq.open("GET", "http://140.118.127.132:5000/get_div?corpid=6015&page=1");
+oReq.send();
+
+  </script>
 </body>
 </html>

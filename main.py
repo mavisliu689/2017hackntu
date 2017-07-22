@@ -31,6 +31,7 @@ def question():
     return render_template('question.html')
 
 @app.route('/list_r', methods=['POST'])
+# @app.route('/list_r')
 def list_r():
     invest_score = "PR1" #RR1,RR2,RR3
     stock_ID = [2845,6005,1704,1727,2409,1216,1722,2856,1535]
@@ -52,7 +53,8 @@ def list_r():
         })
         result_industrys.append(result_industry)
     print (result_industrys)
-    return render_template_string('list.html', data=result_industrys)
+    # return render_template('list.html')
+    return render_template('list.html', data=result_industrys)
 
 @app.route('/profile')
 def profile():

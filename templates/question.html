@@ -27,7 +27,7 @@
     </el-steps>
     </el-row>
     <form action="list_r" ref="form">
-      <el-row type="flex" class="question__form" v-if="active === 0"> 
+      <el-row type="flex" class="question__form" v-if="active === 0" > 
         <el-form ref="riskForm" :model="riskForm" label-position="top">
           <el-form-item label="在一般情況下，您所能接受之價格波動，大約在那種程度？ (風險評估-偏好)">
             <el-radio-group v-model="riskForm.risk1">

@@ -97,6 +97,23 @@ def list_r():
 def csr_info():
 	return render_template('csr_info.html')
 
+@app.route('/list_all')
+def list_all():
+    data_frame_topics, data_frame_risks, data_frame_ranking = get_all_excel()
+    get_ranking_frame = isnan_tozero(data_frame_ranking)
+    result_industrys = list()
+    for index, row in get_ranking_frame.iterrows():
+        result_industry = {}
+        result_industry.update({
+            "name":row['企業完整名稱'],
+            "industry_type":row['產業類別'],
+            "stock_id": row['股票代碼'],
+            "PR": row['社會PR'],
+            "stock_type": row['股票類型']
+        })
+        result_industrys.append(result_industry)
+    return render_template('list.html', data=json.dumps(result_industrys), mimetype='application/json')
+
 @app.route('/profile')
 def profile():
 	stock_info = get_stock_api()

@@ -65,6 +65,7 @@ def list_r():
     get_risk_frame = get_risk(data_frame_risks, get_topics_frame, risks)
     get_risk_frame = isnan_tozero(get_risk_frame)
     get_ranking_frame = get_ranking(data_frame_ranking, get_risk_frame)
+    get_ranking_frame = isnan_tozero(get_ranking_frame)
     result_industrys = list()
     for index, row in get_ranking_frame.iterrows():
         result_industry = {}
@@ -196,8 +197,8 @@ def get_ranking(data_frame_ranking, get_risk_frame):
     is_in_get_risks_dataframe = get_risk_frame['股票代碼']
     return data_frame_ranking[data_frame_ranking['股票代碼'].isin(is_in_get_risks_dataframe)]
 
-def isnan_tozero(get_risk_frame):
-    return get_risk_frame.fillna('no data') 
+def isnan_tozero(get_frame):
+    return get_frame.fillna('未上市') 
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port, debug=True, threaded=True)

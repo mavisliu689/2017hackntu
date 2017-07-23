@@ -7,8 +7,9 @@ a {
 }
 
 .question__form {
-  width: 900px;
+  width: 90%;
   margin: 42px auto;
+  box-sizing: border-box;
 }
 
 .bi {

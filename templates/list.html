@@ -26,31 +26,37 @@
         <el-table-column
           prop="name"
           label="企業名稱"
-          width="300">
+          width="280">
         </el-table-column>
         <el-table-column
           prop="industry_type"
           label="企業類型"
-          width="180">
+          width="120">
         </el-table-column>
         <el-table-column
           prop="stock_id"
-          label="股票代號">
+          label="股票代號"
+          width="100">
         </el-table-column>
         <el-table-column
           prop="PR"
-          label="社會PR">
+          label="社會PR"
+          width="120"
+          sortable>
         </el-table-column>
         <el-table-column
           prop="stock_type"
-          label="股票類型">
+          label="股票類型"
+          width="180"
+          sortable>
         </el-table-column>   
       	<el-table-column       
-         label="Operations">
+         label="操作"
+         fixed="right"
+         width="150">
           <template scope="scope">
             <el-popover
               placement="bottom"
-              title="股票購買"
               width="200"
               trigger="click"
               :value="popoverShow"

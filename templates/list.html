@@ -15,18 +15,18 @@
   <div id="app">
     <el-menu theme="dark" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
       <el-menu-item index="1"><a href="/">投資永續企業 Invest Sustainable Corporation</a></el-menu-item>
-      <el-menu-item index="2"><a href="/">企業名單</a></el-menu-item>
+      <el-menu-item index="2"><a href="/list_r">企業名單</a></el-menu-item>
+      <el-menu-item index="3"><a href="/csr_info">CSR 資訊</a></el-menu-item>
     </el-menu>
     <el-row type="flex" class="question__form">
       <el-table
         :data="tableData3"
-        height="250"
         border
         style="width: 100%">
         <el-table-column
           prop="name"
           label="企業名稱"
-          width="180">
+          width="300">
         </el-table-column>
         <el-table-column
           prop="industry_type"
@@ -45,16 +45,28 @@
           prop="stock_type"
           label="股票類型">
         </el-table-column>                
+          label="Operations">
+          <template scope="scope">
+            <el-popover
+              placement="bottom"
+              title="股票購買"
+              width="200"
+              trigger="click"
+              :value="popoverShow"
+            >
+              <el-form :model="stockForm" label-width="120px">
+                <el-form-item label="購買張數">
+                  <el-input v-model="stockForm.num" size="small"></el-input>
+                </el-form-item>
+                <el-form-item label-width="120px">
+                  <el-button type="primary" @click="onSubmit(scope.row.name)" size="small">購買</el-button>
+                </el-form-item>
+              </el-form>
+              <el-button slot="reference">購買本股</el-button>
+            </el-popover>
+          </template>
+        </el-table-column>
       </el-table>
-    </el-row>
-    <el-row type="flex" class="question__form" justify="end">
-      <el-pagination
-        @current-change="handleCurrentChange"
-        :current-page.sync="currentPage3"
-        :page-size="100"
-        layout="prev, pager, next, jumper"
-        :total="1000">
-      </el-pagination>
     </el-row>
   </div>
   <script>
@@ -62,10 +74,14 @@
       el: '#app',
       data: {
         activeIndex: '2',
-        currentPage3: 1,
         tableData3: [],
+        popoverShow: false,
+        stockForm: {
+          num: 0
+        }
       },
       mounted() {
+
         //  dataStr = JSON.parse( JSON.stringify( '{{ data|tojson|safe }}' ))
         const dataStr = JSON.parse(JSON.stringify('{{ data|safe }}'));
 		const jsonData_o = eval('(' + dataStr + ')')
@@ -74,13 +90,18 @@
         this.tableData3 = jsonData_o
         // console.log(jsonData_o)
         // console.log(this.tableData3)
+
       },
       methods: {
-        handleCurrentChange(val) {
-          console.log(`current page: ${val}`);
-        },
         handleSelect(key, keyPath) {
-          console.log(key, keyPath);
+          console.log(key, keyPath)
+        },
+        onSubmit(name) {
+          this.$notify({
+            title: '成功',
+            message: `購買${name} ${this.stockForm.num} 張成功`,
+            type: 'success'
+          })
         }
       }
     })

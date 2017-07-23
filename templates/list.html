@@ -15,7 +15,7 @@
   <div id="app">
     <el-menu theme="dark" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
       <el-menu-item index="1"><a href="/">投資永續企業 Invest Sustainable Corporation</a></el-menu-item>
-      <el-menu-item index="2"><a href="/list_r">企業名單</a></el-menu-item>
+      <el-menu-item index="2"><a href="/">企業名單</a></el-menu-item>
     </el-menu>
     <el-row type="flex" class="question__form">
       <el-table
@@ -37,6 +37,14 @@
           prop="stock_id"
           label="股票代號">
         </el-table-column>
+        <el-table-column
+          prop="PR"
+          label="社會PR">
+        </el-table-column>
+        <el-table-column
+          prop="stock_type"
+          label="股票類型">
+        </el-table-column>                
       </el-table>
     </el-row>
     <el-row type="flex" class="question__form" justify="end">
@@ -58,11 +66,14 @@
         tableData3: [],
       },
       mounted() {
-        const dataStr = [{{ data|safe }}]
+        //  dataStr = JSON.parse( JSON.stringify( '{{ data|tojson|safe }}' ))
+        const dataStr = JSON.parse(JSON.stringify('{{ data|safe }}'));
+		const jsonData_o = eval('(' + dataStr + ')')
+
         // const data = JSON.parse(dataStr)
-        this.tableData3 = dataStr
-        console.log(dataStr)
-        console.log(this.tableData3)
+        this.tableData3 = jsonData_o
+        // console.log(jsonData_o)
+        // console.log(this.tableData3)
       },
       methods: {
         handleCurrentChange(val) {

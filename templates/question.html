@@ -15,8 +15,9 @@
   <div id="app">
     <el-menu theme="dark" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
       <el-menu-item index="1"><a href="/">投資永續企業 Invest Sustainable Corporation</a></el-menu-item>
-      <el-menu-item index="2"><a href="/list_r">企業名單</a></el-menu-item>
+      <el-menu-item index="2"><a href="/">企業名單</a></el-menu-item>
       <el-menu-item index="3"><a href="/csr_info">CSR 資訊</a></el-menu-item>
+
     </el-menu>
     <el-row type="flex" justify="center" class="question__form">
       <el-steps center :space="300" :active="active" finish-status="success" process-status="wait">
@@ -343,6 +344,12 @@
           console.log(arr)
           console.log(this.riskIssueForm.issue1)
           var xhttp = new XMLHttpRequest();
+          var data = {
+          	'invest_score': rank,
+          	'industry_type': this.typeForm.type1,
+          	'topics' : arr,
+          	'risk': this.riskIssueForm.issue1
+          }
           xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
             // document.innerHTML = xhttp.responseText
@@ -351,7 +358,7 @@
             }
           }
           xhttp.open("post",'list_r', true)
-          xhttp.send()
+          xhttp.send(JSON.stringify(data))
           // this.$refs.form.submit()
         },
         nextStep() {
